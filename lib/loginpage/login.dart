@@ -5,6 +5,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:intl_phone_field/country_picker_dialog.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -126,6 +127,26 @@ class _LoginState extends State<Login> {
     final String email = _emailController.text;
     final String password = _passwordController.text;
     final String contactNumber = _contactNumberController.text;
+
+    try {
+      // Firebase signup
+      UserCredential firebaseUserCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+
+      //Send email verification::Firebase
+      await firebaseUserCredential.user?.sendEmailVerification();
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Verification email sent. Please check your inbox.")),
+      );
+    } on FirebaseAuthException catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Firebase signup failed: ${e.message}")),
+      );
+      return;
+    }
 
     // Sign up user
     final _ = await supabase.auth.signUp(
