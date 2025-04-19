@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "866664891265",
+    "firebase_url": "https://fitnesssync-c8463-default-rtdb.firebaseio.com",
+    "project_id": "fitnesssync-c8463",
+    "storage_bucket": "fitnesssync-c8463.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:866664891265:android:3daa0e7aad92e4125d1e80",
+        "android_client_info": {
+          "package_name": "fit.rolddevs.fitsync"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAbnOdX6M2mzmqBGyODyd6b2cf2Ghe6lxw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
