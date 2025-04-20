@@ -88,13 +88,22 @@ flutter:
     - assets/frontpage/fooddiet.jpg
     - assets/frontpage/pump.jpg
     - assets/frontpage/community.jpg
+
     - assets/loginpage/weight.jpg
     - assets/loginpage/girlblue.jpg
     - assets/loginpage/gym.jpg
     - assets/loginpage/gymgirl.jpg
     - assets/loginpage/running.jpg
+    - assets/loginpage/yoga.jpg
+    - assets/loginpage/gradient.jpg
+    - assets/loginpage/colorful.jpg
+    - assets/loginpage/kettle.jpg
+    - assets/loginpage/plate.jpg
+    - assets/loginpage/rope.jpg
+
     - assets/icons/facebook.png
     - assets/icons/google.png
+    - assets/icons/avatar.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

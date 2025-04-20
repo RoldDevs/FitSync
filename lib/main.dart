@@ -29,6 +29,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
+        fontFamily: GoogleFonts.poppins().fontFamily,
         textTheme: GoogleFonts.poppinsTextTheme().copyWith(
           bodyMedium: GoogleFonts.poppins(
             fontSize: 16,
@@ -41,6 +42,20 @@ class MyApp extends StatelessWidget {
             selectionColor: Color.fromARGB(150, 0, 255, 0), // optional highlight color
             selectionHandleColor: Colors.green,
         ),
+          snackBarTheme: SnackBarThemeData(
+                contentTextStyle: TextStyle(
+                  color: Colors.white,
+                  fontSize: 16, // Customize font size
+                  fontWeight: FontWeight.w500, // Optional
+                  fontFamily: GoogleFonts.poppins().fontFamily, // Optional override
+                ),
+            backgroundColor: Colors.black,
+            behavior: SnackBarBehavior.floating,
+            elevation: 10,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
+          ),
       ),
       home: const Scaffold(
         body: Login(),
