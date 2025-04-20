@@ -6,6 +6,8 @@ import 'package:intl_phone_field/country_picker_dialog.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:material_symbols_icons/symbols.dart';
+
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -19,6 +21,10 @@ class _LoginState extends State<Login> {
   int _currentPage = 0;
   bool _isButtonClicked = false;
   XFile? _profileImage;
+
+  //Password visibility
+  bool _obscureTextPassword = true;
+  bool _obscureTextConfirmPassword = true;
 
   // Controllers for input fields
   final TextEditingController _emailController = TextEditingController();
@@ -51,7 +57,7 @@ class _LoginState extends State<Login> {
       _isButtonClicked = true;
     });
     Future.delayed(const Duration(milliseconds: 200), () {
-      if (_currentPage < 3) {
+      if (_currentPage < 4) {
         _pageController.nextPage(
           duration: const Duration(milliseconds: 600),
           curve: Curves.easeInOut,
@@ -194,6 +200,7 @@ class _LoginState extends State<Login> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: Stack(
         children: [
           PageView(
@@ -474,23 +481,23 @@ class _LoginState extends State<Login> {
               Stack(
                 children: [
                   Container(
-                    color: Colors.grey[900], // Background color
+                    color: Colors.black, // Background color
                   ),
                   Positioned(
-                    bottom: 160,
+                    top: 50,
                     left: 20,
                     right: 20,
                     child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
                         AnimatedOpacity(
                           opacity: _currentPage == 3 ? 1 : 0,
                           duration: const Duration(milliseconds: 500),
                           child: Text(
-                            "Sign Up Now!",
-                            textAlign: TextAlign.center,
+                            "Sign in to your\nAccount!",
+                            textAlign: TextAlign.end,
                             style: GoogleFonts.poppins(
-                              fontSize: 28,
+                              fontSize: 32,
                               fontWeight: FontWeight.bold,
                               color: Colors.green,
                             ),
@@ -501,6 +508,121 @@ class _LoginState extends State<Login> {
                           opacity: _currentPage == 3 ? 1 : 0,
                           duration: const Duration(milliseconds: 500),
                           child: Text(
+                            "The body achieves\nwhat the mind believes.",
+                            textAlign: TextAlign.end,
+                            style: GoogleFonts.poppins(
+                              fontSize: 15,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                       // Google Sign Up Button with Custom Image Icon
+                       const SizedBox(height: 25),
+                       GestureDetector(
+                         // onTap: _signUpWithGoogle,
+                         child: Container(
+                           width: double.infinity, // Makes the button stretch across the width
+                           padding: EdgeInsets.symmetric(vertical: 12),
+                           decoration: BoxDecoration(
+                             color: Colors.white, // White background for the button
+                             borderRadius: BorderRadius.circular(30), // Rounded corners
+                             boxShadow: [
+                               BoxShadow(
+                                 color: Colors.grey.withOpacity(0.3),
+                                 spreadRadius: 2,
+                                 blurRadius: 5,
+                                 offset: Offset(0, 3), // Changes position of shadow
+                               ),
+                             ],
+                           ),
+                           child: Row(
+                             mainAxisAlignment: MainAxisAlignment.center, // Centers the content horizontally
+                             children: [
+                               // Google Icon as Custom Image with custom size and padding
+                               Image.asset(
+                                 "assets/icons/google.png", // Path to your custom Google icon
+                                 width: 20, // Width of the image
+                                 height: 20, // Height of the image
+                               ),
+                               const SizedBox(width: 10), // Space between the image and text
+                               Text(
+                                 "Sign Up with Google", // Text on the button
+                                 style: TextStyle(
+                                   fontSize: 16,
+                                   color: Colors.black, // Text color
+                                 ),
+                               ),
+                             ],
+                           ),
+                         ),
+                       ),
+                       // Divider with text
+                       const SizedBox(height: 25),
+                       Padding(
+                         padding: const EdgeInsets.symmetric(vertical: 20.0),
+                         child: Row(
+                           children: <Widget>[
+                             Expanded(
+                               child: Divider(
+                                 thickness: 2,
+                                 color: Colors.green, // Green divider color
+                               ),
+                             ),
+                             Padding(
+                               padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                               child: Text(
+                                 "Or continue with",
+                                 style: TextStyle(
+                                   color: Colors.green,
+                                   fontSize: 15), // Green text color
+                               ),
+                             ),
+                             Expanded(
+                               child: Divider(
+                                 thickness: 2,
+                                 color: Colors.green, // Green divider color
+                               ),
+                             ),
+                           ],
+                         ),
+                       ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+ 
+              // Page 5
+              Stack(
+                children: [
+                  Container(
+                    color: Colors.black, // Background color
+                  ),
+                  Positioned(
+                    top: 50,
+                    left: 20,
+                    right: 20,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        AnimatedOpacity(
+                          opacity: _currentPage == 4 ? 1 : 0,
+                          duration: const Duration(milliseconds: 500),
+                          child: Text(
+                            "Sign Up Now!",
+                            textAlign: TextAlign.end,
+                            style: GoogleFonts.poppins(
+                              fontSize: 32,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.green,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 10),
+                        AnimatedOpacity(
+                          opacity: _currentPage == 4 ? 1 : 0,
+                          duration: const Duration(milliseconds: 500),
+                          child: Text(
                             "Get Stronger Every Day!",
                             textAlign: TextAlign.start,
                             style: GoogleFonts.poppins(
@@ -509,43 +631,60 @@ class _LoginState extends State<Login> {
                             ),
                           ),
                         ),
-                        const SizedBox(height: 20),
-
+                        const SizedBox(height: 15),
                         // Image Picker
                         AnimatedOpacity(
-                          opacity: _currentPage == 3 ? 1 : 0,
+                          opacity: _currentPage == 4 ? 1 : 0,
                           duration: const Duration(milliseconds: 500),
-                          child: Center(
+                          child: Align(
+                            alignment: Alignment.centerRight, // Align the container to the right side
                             child: GestureDetector(
                               onTap: _pickAndUploadImage,
                               child: Container(
-                                width: 120,
-                                height: 120,
+                                margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10), // Margin for left, right, top, bottom
+                                padding: const EdgeInsets.all(20), // Padding inside the container
                                 decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  color: Colors.green,
-                                  border: Border.all(color: Colors.white, width: 4),
-                                  image: _profileImage != null
-                                      ? DecorationImage(
-                                          image: FileImage(File(_profileImage!.path)),
-                                          fit: BoxFit.cover,
-                                        )
-                                      : null,
+                                  color: Colors.grey[900], // Grey background color
+                                  borderRadius: BorderRadius.circular(12), // Optional: rounded corners for the box
                                 ),
-                                child: _profileImage == null
-                                    ? Icon(
-                                        Icons.camera_alt,
-                                        color: Colors.white,
-                                        size: 40,
-                                      )
-                                    : null,
+                                child: Container(
+                                  constraints: BoxConstraints(
+                                    maxWidth: double.infinity, // Make sure it stretches to the parent's width
+                                    maxHeight: double.infinity, // Adjust height automatically based on content
+                                  ),
+                                  child: Center( // Center the circle inside the container
+                                    child: Container(
+                                      width: 120, // Fixed width for the image circle
+                                      height: 120, // Fixed height for the image circle
+                                      decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        color: Colors.green,
+                                        border: Border.all(color: Colors.white, width: 4),
+                                        image: _profileImage != null
+                                            ? DecorationImage(
+                                                image: FileImage(File(_profileImage!.path)),
+                                                fit: BoxFit.cover,
+                                              )
+                                            : null,
+                                      ),
+                                      child: _profileImage == null
+                                          ? Icon(
+                                              Icons.camera_alt,
+                                              color: Colors.white,
+                                              size: 40,
+                                            )
+                                          : null,
+                                    ),
+                                  ),
+                                ),
                               ),
                             ),
                           ),
                         ),
-                        const SizedBox(height: 20),
+
+                        const SizedBox(height: 10),
                         AnimatedOpacity(
-                          opacity: _currentPage == 3 ? 1 : 0,
+                          opacity: _currentPage == 4 ? 1 : 0,
                           duration: const Duration(milliseconds: 500),
                           child: Column(
                             children: [
@@ -554,38 +693,153 @@ class _LoginState extends State<Login> {
                                 controller: _emailController,
                                 style: const TextStyle(
                                   fontSize: 16,
-                                  color: Colors.white,
+                                  color: Colors.white, // Text color white to stand out on gray background
                                 ),
-                                cursorColor: Colors.green,
+                                cursorColor: Colors.grey, // Green cursor
                                 decoration: InputDecoration(
                                   labelText: "Email",
                                   labelStyle: const TextStyle(
                                     fontSize: 16,
                                     fontWeight: FontWeight.bold,
-                                    color: Colors.green,
+                                    color: Colors.grey, // Green label color
                                   ),
                                   filled: true,
-                                  fillColor: Color.fromRGBO(0, 0, 0, 0.0),
+                                  fillColor: Colors.grey[900], // Dark gray background to match black background
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                    borderSide: BorderSide(
+                                      color: Colors.black, // Gray border when not focused
+                                      width: 2,
+                                    ),
+                                  ),
+                                  enabledBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                    borderSide: BorderSide(
+                                      color: Colors.black, // Gray border when enabled
+                                      width: 2,
+                                    ),
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                    borderSide: BorderSide(
+                                      color: Colors.black, // Green border when focused
+                                      width: 2,
+                                    ),
+                                  ),
+                                  prefixIcon: const Icon(
+                                    Symbols.person, // You can also try Symbols.alternate_email
+                                    color: Colors.grey,
+                                    weight: 700, // Optional: adjusts stroke thickness (100-700)
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(height: 10),
+                              TextField(
+                                controller: _passwordController,
+                                obscureText: _obscureTextPassword,
+                                style: const TextStyle(
+                                  fontSize: 16,
+                                  color: Colors.white,
+                                ),
+                                cursorColor: Colors.green,
+                                decoration: InputDecoration(
+                                  labelText: "Password",
+                                  labelStyle: const TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.grey,
+                                  ),
+                                  filled: true,
+                                  fillColor: Colors.grey[900],
                                   border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(10),
                                   ),
                                   enabledBorder: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(10),
                                     borderSide: const BorderSide(
-                                      color: Colors.green,
+                                      color: Colors.black,
                                       width: 2,
                                     ),
                                   ),
                                   focusedBorder: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(10),
                                     borderSide: const BorderSide(
-                                      color: Colors.green,
+                                      color: Colors.black,
                                       width: 2,
                                     ),
                                   ),
+                                  prefixIcon: const Icon(
+                                    Symbols.key, // You can also try Symbols.alternate_email
+                                    color: Colors.grey,
+                                    weight: 700, // Optional: adjusts stroke thickness (100-700)
+                                  ),
+                                  suffixIcon: IconButton(
+                                    icon: Icon(
+                                      _obscureTextPassword ? Symbols.visibility : Symbols.visibility_off,
+                                      color: Colors.grey,
+                                      weight: 700,
+                                    ), onPressed: () { 
+                                      setState(() {
+                                        _obscureTextPassword = !_obscureTextPassword;
+                                      });
+                                     },
+                                  ),
                                 ),
                               ),
-                              const SizedBox(height: 15),
+                              const SizedBox(height: 10),
+                              TextField(
+                                controller: _confirmPasswordController,
+                                obscureText: _obscureTextConfirmPassword,
+                                style: const TextStyle(
+                                  fontSize: 16,
+                                  color: Colors.white,
+                                ),
+                                cursorColor: Colors.green,
+                                decoration: InputDecoration(
+                                  labelText: "Confirm Password",
+                                  labelStyle: const TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.grey,
+                                  ),
+                                  filled: true,
+                                  fillColor: Colors.grey[900],
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  enabledBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                    borderSide: const BorderSide(
+                                      color: Colors.black,
+                                      width: 2,
+                                    ),
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                    borderSide: const BorderSide(
+                                      color: Colors.black,
+                                      width: 2,
+                                    ),
+                                  ),
+                                  prefixIcon: const Icon(
+                                    Symbols.security, // You can also try Symbols.alternate_email
+                                    color: Colors.grey,
+                                    weight: 700, // Optional: adjusts stroke thickness (100-700)
+                                  ),
+                                  suffixIcon: IconButton(
+                                    icon: Icon(
+                                      _obscureTextConfirmPassword ? Symbols.visibility : Symbols.visibility_off,
+                                      color: Colors.grey,
+                                      weight: 700,
+                                    ), onPressed: () { 
+                                      setState(() {
+                                        _obscureTextConfirmPassword = !_obscureTextConfirmPassword;
+                                      });
+                                     },
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(height: 10),
                               IntlPhoneField(
                                 controller: _contactNumberController, 
                                 style: const TextStyle(
@@ -598,25 +852,25 @@ class _LoginState extends State<Login> {
                                   labelStyle: const TextStyle(
                                     fontSize: 16,
                                     fontWeight: FontWeight.bold,
-                                    color: Colors.green,
+                                    color: Colors.grey,
                                   ),
                                   filled: true,
-                                  fillColor: Color.fromRGBO(0, 0, 0, 0.0),
-                                  counterStyle: TextStyle(color: Colors.green),
+                                  fillColor: Colors.grey[900],
+                                  counterStyle: TextStyle(color: Colors.grey),
                                   border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(10),
                                   ),
                                   enabledBorder: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(10),
                                     borderSide: const BorderSide(
-                                      color: Colors.green,
+                                      color: Colors.black,
                                       width: 2,
                                     ),
                                   ),
                                   focusedBorder: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(10),
                                     borderSide: const BorderSide(
-                                      color: Colors.green,
+                                      color: Colors.black,
                                       width: 2,
                                     ),
                                   ),
@@ -624,9 +878,9 @@ class _LoginState extends State<Login> {
                                 dropdownDecoration: const BoxDecoration(
                                   color: Color.fromRGBO(0, 0, 0, 0.0),
                                 ),
-                                dropdownTextStyle: const TextStyle(color: Colors.green),
+                                dropdownTextStyle: const TextStyle(color: Colors.grey),
                                 flagsButtonPadding: const EdgeInsets.only(left: 8, right: 8),
-                                dropdownIcon: const Icon(Icons.arrow_drop_down, color: Colors.green),
+                                dropdownIcon: const Icon(Icons.arrow_drop_down, color: Colors.grey),
                                 pickerDialogStyle: PickerDialogStyle(
                                   backgroundColor: Colors.black,
                                   searchFieldCursorColor: Colors.green,
@@ -650,80 +904,6 @@ class _LoginState extends State<Login> {
                                   ),
                                   countryCodeStyle: TextStyle(fontSize: 16, color: Colors.green),
                                   countryNameStyle: TextStyle(fontSize: 16, color: Colors.green),
-                                ),
-                              ),
-                              const SizedBox(height: 15),
-                              TextField(
-                                controller: _passwordController,
-                                obscureText: true,
-                                style: const TextStyle(
-                                  fontSize: 16,
-                                  color: Colors.white,
-                                ),
-                                cursorColor: Colors.green,
-                                decoration: InputDecoration(
-                                  labelText: "Password",
-                                  labelStyle: const TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.green,
-                                  ),
-                                  filled: true,
-                                  fillColor: Color.fromRGBO(0, 0, 0, 0.0),
-                                  border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                  enabledBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(10),
-                                    borderSide: const BorderSide(
-                                      color: Colors.green,
-                                      width: 2,
-                                    ),
-                                  ),
-                                  focusedBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(10),
-                                    borderSide: const BorderSide(
-                                      color: Colors.green,
-                                      width: 2,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              const SizedBox(height: 15),
-                              TextField(
-                                controller: _confirmPasswordController,
-                                obscureText: true,
-                                style: const TextStyle(
-                                  fontSize: 16,
-                                  color: Colors.white,
-                                ),
-                                cursorColor: Colors.green,
-                                decoration: InputDecoration(
-                                  labelText: "Confirm Password",
-                                  labelStyle: const TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.green,
-                                  ),
-                                  filled: true,
-                                  fillColor: Color.fromRGBO(0, 0, 0, 0.0),
-                                  border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                  enabledBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(10),
-                                    borderSide: const BorderSide(
-                                      color: Colors.green,
-                                      width: 2,
-                                    ),
-                                  ),
-                                  focusedBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(10),
-                                    borderSide: const BorderSide(
-                                      color: Colors.green,
-                                      width: 2,
-                                    ),
-                                  ),
                                 ),
                               ),
                             ],
@@ -799,7 +979,7 @@ class _LoginState extends State<Login> {
             left: 15,
             child: Row(
               children: List.generate(
-                4,
+                5,
                 (index) => AnimatedContainer(
                   duration: const Duration(milliseconds: 300),
                   margin: const EdgeInsets.symmetric(horizontal: 5),

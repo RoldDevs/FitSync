@@ -36,6 +36,11 @@ class MyApp extends StatelessWidget {
             letterSpacing: 0.5,
           ),
         ),
+        textSelectionTheme: const TextSelectionThemeData(
+            cursorColor: Colors.green,
+            selectionColor: Color.fromARGB(150, 0, 255, 0), // optional highlight color
+            selectionHandleColor: Colors.green,
+        ),
       ),
       home: const Scaffold(
         body: Login(),
