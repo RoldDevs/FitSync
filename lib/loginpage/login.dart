@@ -17,15 +17,14 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
+  //PAGE CONTROLLER & PROFILE IMAGE
   final PageController _pageController = PageController();
   int _currentPage = 0;
   bool _isButtonClicked = false;
   XFile? _profileImage;
 
-  //SignIn
+  //SIGN IN & SIGN UP
   bool _obscureTextSignInPassword = true;
-
-  //SignUp
   bool _obscureTextPassword = true;
   bool _obscureTextConfirmPassword = true;
 
@@ -39,20 +38,25 @@ class _LoginState extends State<Login> {
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _confirmPasswordController = TextEditingController();
 
+  //SUPABASE CLIENT INITIALIZATION
   late final SupabaseClient supabase;
 
   @override
-  void initState() {
+  void initState() 
+  {
     super.initState();
     supabase = Supabase.instance.client;
   }
 
   @override
-  void dispose() {
+  void dispose() 
+  {
     _pageController.dispose();
     super.dispose();
   }
+  //SUPABASE CLIENT INITIALIZATION END
 
+  //PAGE CONTROLLER 
   void _onPageChanged(int index) {
     setState(() {
       _currentPage = index;
@@ -84,63 +88,67 @@ class _LoginState extends State<Login> {
       );
     }
   }
+  //PAGE CONTROLLER END
 
-Future<UserCredential?> _SignInWithGoogle() async {
-  //TO::DO
-}
-
-Future<void> _signInUser() async {
-  final email = _emailControllerSignIn.text.trim();
-  final password = _passwordControllerSignIn.text.trim(); // You had a typo here
-
-  if (email.isEmpty || password.isEmpty) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text("Please enter both email and password.")),
-    );
-    return;
+  //GOOGLE CLIENT INITIALIZATION TO::DO
+  Future<UserCredential?> _SignInWithGoogle() async {
+    return null;
   }
+ 
+  //SIGN IN USER WITH FIREBASE AUTHENTICATION
+  Future<void> _signInUser() async {
+    final email = _emailControllerSignIn.text.trim();
+    final password = _passwordControllerSignIn.text.trim(); // You had a typo here
 
-  try {
-    UserCredential userCredential = await FirebaseAuth.instance
-        .signInWithEmailAndPassword(email: email, password: password);
-
-    if (userCredential.user != null) {
-      // Navigate to userscreen.dart
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => UserScreen()),
+    if (email.isEmpty || password.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Please enter both email and password.")),
       );
-    }
-  } on FirebaseAuthException catch (e) {
-    String errorMessage;
-
-    switch (e.code) {
-      case 'user-not-found':
-        errorMessage = "No user found for that email.";
-        break;
-      case 'wrong-password':
-        errorMessage = "Incorrect password.";
-        break;
-      case 'invalid-email':
-        errorMessage = "Invalid email address.";
-        break;
-      default:
-        errorMessage = "Login failed: ${e.message}";
-        break;
+      return;
     }
 
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(errorMessage)),
-    );
-  } catch (e) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text("An unexpected error occurred.")),
-    );
-    print("Unexpected error: $e");
+    try {
+      UserCredential userCredential = await FirebaseAuth.instance
+          .signInWithEmailAndPassword(email: email, password: password);
+
+      if (userCredential.user != null) {
+        // Navigate to userscreen.dart
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => UserScreen()),
+        );
+      }
+    } on FirebaseAuthException catch (e) {
+      String errorMessage;
+
+      switch (e.code) {
+        case 'user-not-found':
+          errorMessage = "No user found for that email.";
+          break;
+        case 'wrong-password':
+          errorMessage = "Incorrect password.";
+          break;
+        case 'invalid-email':
+          errorMessage = "Invalid email address.";
+          break;
+        default:
+          errorMessage = "Login failed: ${e.message}";
+          break;
+      }
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(errorMessage)),
+      );
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("An unexpected error occurred.")),
+      );
+      print("Unexpected error: $e");
+    }
   }
-}
+  //SIGN IN USER END
 
-
+  //PICK IMAGE FROM GALLERY 
   Future<void> _pickAndUploadImage() async {
     final picker = ImagePicker();
     final pickedFile = await picker.pickImage(source: ImageSource.gallery);
@@ -151,7 +159,9 @@ Future<void> _signInUser() async {
       });
     }
   }
+  //PICK IMAGE FROM GALLERY END
 
+  //UPLOAD IMAGE TO SUPABASE
   Future<void> _uploadProfileImage(String filePath) async {
     final file = File(filePath);
     try {
@@ -169,7 +179,9 @@ Future<void> _signInUser() async {
       debugPrint("Upload failed: $e");
     }
   }
+  //UPLOAD IMAGE TO SUPABASE END
 
+  //VALIDATE INPUTS
   bool _validateInputs() {
     if (_emailController.text.isEmpty ||
         _contactNumberController.text.isEmpty ||
@@ -184,100 +196,104 @@ Future<void> _signInUser() async {
 
     return true; // All validations passed
   }
+  //VALIDATE INPUTS END
 
-Future<void> _submitData() async {
-  // Check if profile image is provided
-  if (_profileImage == null) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Row(
-          children: const [
-            Icon(Icons.error_outline, color: Colors.white),
-            SizedBox(width: 8),
-            Text("Please select a profile picture."),
-          ],
+
+  //SIGN UP USER WITH FIREBASE AUTHENTICATION AND SUPABASE
+  Future<void> _submitData() async {
+    // Check if profile image is provided
+    if (_profileImage == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Row(
+            children: const [
+              Icon(Icons.error_outline, color: Colors.white),
+              SizedBox(width: 8),
+              Text("Please select a profile picture."),
+            ],
+          ),
+          backgroundColor: Colors.black,
+          behavior: SnackBarBehavior.floating,
         ),
-        backgroundColor: Colors.black,
-        behavior: SnackBarBehavior.floating,
-      ),
-    );
-    return;
-  }
+      );
+      return;
+    }
 
-  // Validate text inputs
-  if (!_validateInputs()) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Row(
-          children: const [
-            Icon(Icons.warning, color: Colors.white),
-            SizedBox(width: 8),
-            Text("Please fill all fields correctly."),
-          ],
+    // Validate text inputs
+    if (!_validateInputs()) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Row(
+            children: const [
+              Icon(Icons.warning, color: Colors.white),
+              SizedBox(width: 8),
+              Text("Please fill all fields correctly."),
+            ],
+          ),
+          backgroundColor: Colors.black,
+          behavior: SnackBarBehavior.floating,
         ),
-        backgroundColor: Colors.black,
-        behavior: SnackBarBehavior.floating,
-      ),
-    );
-    return;
-  }
+      );
+      return;
+    }
 
-  final String email = _emailController.text;
-  final String password = _passwordController.text;
-  final String contactNumber = _contactNumberController.text;
+    //Get input values
+    final String email = _emailController.text;
+    final String password = _passwordController.text;
+    final String contactNumber = _contactNumberController.text;
 
-  try {
-    // Firebase signup
-    UserCredential firebaseUserCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
+    try {
+      //FIREBASE SIGNUP
+      UserCredential firebaseUserCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+
+      //SEND EMAIL VERIFICATION WITH FIREBASE
+      await firebaseUserCredential.user?.sendEmailVerification();
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Row(
+            children: const [
+              Icon(Icons.mark_email_read_outlined, color: Colors.white),
+              SizedBox(width: 8),
+              Text("Verification email sent. Please check your inbox."),
+            ],
+          ),
+          backgroundColor: Colors.black,
+          behavior: SnackBarBehavior.floating,
+        ),
+      );
+    } on FirebaseAuthException catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Row(
+            children: [
+              const Icon(Icons.error, color: Colors.white),
+              const SizedBox(width: 8),
+              Text("Firebase signup failed: ${e.message}"),
+            ],
+          ),
+          backgroundColor: Colors.red,
+          behavior: SnackBarBehavior.floating,
+        ),
+      );
+      return;
+    }
+
+    //SIGN UP WITH SUPABASE
+    final _ = await supabase.auth.signUp(
       email: email,
       password: password,
+      data: {
+        'contact_number': contactNumber,
+      },
     );
 
-    // Send email verification
-    await firebaseUserCredential.user?.sendEmailVerification();
-
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Row(
-          children: const [
-            Icon(Icons.mark_email_read_outlined, color: Colors.white),
-            SizedBox(width: 8),
-            Text("Verification email sent. Please check your inbox."),
-          ],
-        ),
-        backgroundColor: Colors.black,
-        behavior: SnackBarBehavior.floating,
-      ),
-    );
-  } on FirebaseAuthException catch (e) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Row(
-          children: [
-            const Icon(Icons.error, color: Colors.white),
-            const SizedBox(width: 8),
-            Text("Firebase signup failed: ${e.message}"),
-          ],
-        ),
-        backgroundColor: Colors.red,
-        behavior: SnackBarBehavior.floating,
-      ),
-    );
-    return;
+    // Upload image
+    await _uploadProfileImage(_profileImage!.path);
   }
-
-  // Sign up user to Supabase
-  final _ = await supabase.auth.signUp(
-    email: email,
-    password: password,
-    data: {
-      'contact_number': contactNumber,
-    },
-  );
-
-  // Upload image
-  await _uploadProfileImage(_profileImage!.path);
-}
 
   Widget buildBackgroundImage(String imagePath) {
     return Stack(
