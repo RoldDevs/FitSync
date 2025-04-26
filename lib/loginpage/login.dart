@@ -258,7 +258,7 @@ class _LoginState extends State<Login> {
             children: const [
               Icon(Icons.mark_email_read_outlined, color: Colors.white),
               SizedBox(width: 8),
-              Text("Verification email sent. Please check your inbox."),
+              Text("Verification email sent."),
             ],
           ),
           backgroundColor: Colors.black,

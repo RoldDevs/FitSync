@@ -64,6 +64,10 @@ dependencies:
   #SignIn
   google_sign_in: ^6.3.0
 
+  #Buttons
+  animated_toggle_switch: ^0.8.4
+  lite_rolling_switch: ^1.0.0
+
 dev_dependencies:
   flutter_launcher_icons: ^0.14.3
 
