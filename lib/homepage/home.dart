@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:fitsync/mainscreen/boxes.dart';
+import 'package:fitsync/MainScreen/boxes.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class Home extends StatefulWidget {
